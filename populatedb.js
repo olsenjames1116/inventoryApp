@@ -13,6 +13,7 @@ const Item = require('./models/item');
 const categories = [];
 const items = [];
 
+// Connect to mongoDB to populate database.
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 
@@ -31,7 +32,7 @@ async function main() {
 }
 
 // We pass the index to the ...Create functions so that, for example,
-// category[0] will always be the <category> category, regardless of the order
+// category[0] will always be the Basketball category, regardless of the order
 // in which the elements of promise.all's argument complete.
 async function categoryCreate(index, name, description) {
 	const category = new Category({ name: name, description: description });
