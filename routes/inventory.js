@@ -4,6 +4,8 @@ const router = express.Router();
 // Require controller modules.
 const categoryController = require('../controllers/categoryController');
 
+// ITEM ROUTES //
+
 // CATEGORY ROUTES //
 
 // GET request for creating a Category.
