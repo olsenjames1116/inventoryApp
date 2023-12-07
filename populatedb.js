@@ -25,6 +25,7 @@ async function main() {
 	await mongoose.connect(mongoDB);
 	console.log('Debug: Should be connected?');
 	await createCategories();
+	await createItems();
 	console.log('Debug: Closing mongoose');
 	mongoose.connection.close();
 }
@@ -39,19 +40,83 @@ async function categoryCreate(index, name, description) {
 	console.log(`Added category: ${name}`);
 }
 
+async function itemCreate(
+	index,
+	name,
+	description,
+	category,
+	price,
+	numberInStock
+) {
+	const itemDetail = {
+		name: name,
+		description: description,
+		price: price,
+		numberInStock: numberInStock,
+	};
+	if (category) itemDetail.category = category;
+
+	const item = new Item(itemDetail);
+	await item.save();
+	items[index] = item;
+	console.log(`Added item: ${name}`);
+}
+
 async function createCategories() {
 	console.log('Adding categories');
 	await Promise.all([
-		categoryCreate(
-			0,
-			'Clothing',
-			'All apparel for all customers and purposes.'
-		),
-		categoryCreate(1, 'Shoes', 'All footwear for all customers and purposes.'),
+		categoryCreate(0, 'Basketball', 'Footwear for stepping onto the court.'),
+		categoryCreate(1, 'Running', 'Footwear for putting in miles.'),
 		categoryCreate(
 			2,
-			'Equipment',
-			'All equipment for all customers and purposes.'
+			'Cleats',
+			'Footwear for tearing up all varieties of turf.'
+		),
+	]);
+}
+
+async function createItems() {
+	console.log('Adding items');
+	await Promise.all([
+		itemCreate(
+			0,
+			'Air Jordan 1 Mid SE Basketball Shoes',
+			'A special edition of a fan favorite. Feel what its like to step into the shoes of His Airness.',
+			[categories[0]],
+			134.99,
+			100
+		),
+		itemCreate(
+			1,
+			'Nike LeBron XXI Basketball Shoes',
+			"Designed with in the image of the King, these are ideal for Bron-like open-floor attacks and rising toward the rim when the game's pace turns up.",
+			[categories[0]],
+			199.99,
+			23
+		),
+		itemCreate(
+			2,
+			"adidas Men's Ultraboost 1.0 DNA Running Shoes",
+			"From walks around town to running through the city, there's an Ultraboost for everyone—and we've made it easy to pick the pair that will feel right on your first step.",
+			[categories[1]],
+			199.99,
+			47
+		),
+		itemCreate(
+			3,
+			"New Balance Men's Fresh Foam X 3000 V6 Metal Baseball Cleats",
+			'When the game is on the line, the last thing you need is a distraction. Fresh Foam X cushioning offers reliable underfoot comfort from the first pitch to the last out, so you can keep your head in the game.',
+			[categories[2]],
+			109.99,
+			79
+		),
+		itemCreate(
+			4,
+			"Reef Men's Fanning Flip Flops",
+			"With a compression molded footbed, an airbagged heel, and our legendary built-in bottle opener, it's no surprise the Fanning is the ultimate best-seller.",
+			false,
+			64.99,
+			13
 		),
 	]);
 }
