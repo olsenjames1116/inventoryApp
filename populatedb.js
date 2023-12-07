@@ -32,6 +32,26 @@ async function main() {
 // We pass the index to the ...Create functions so that, for example,
 // category[0] will always be the <category> category, regardless of the order
 // in which the elements of promise.all's argument complete.
-async function categoryCreate(index, name) {}
+async function categoryCreate(index, name, description) {
+	const category = new Category({ name: name, description: description });
+	await category.save();
+	categories[index] = category;
+	console.log(`Added category: ${name}`);
+}
 
-async function createCategories() {}
+async function createCategories() {
+	console.log('Adding categories');
+	await Promise.all([
+		categoryCreate(
+			0,
+			'Clothing',
+			'All apparel for all customers and purposes.'
+		),
+		categoryCreate(1, 'Shoes', 'All footwear for all customers and purposes.'),
+		categoryCreate(
+			2,
+			'Equipment',
+			'All equipment for all customers and purposes.'
+		),
+	]);
+}
