@@ -1,6 +1,7 @@
 const Item = require('../models/item');
 const Category = require('../models/category');
 const asyncHandler = require('express-async-handler');
+const { body, validationResult } = require('express-validator');
 
 // Display index page for inventory.
 exports.index = asyncHandler(async (req, res, next) => {
@@ -68,9 +69,78 @@ exports.itemCreateGet = asyncHandler(async (req, res, next) => {
 });
 
 // Display Item create form on POST.
-exports.itemCreatePost = asyncHandler(async (req, res, next) => {
-	res.send(`NOT IMPLEMENTED: Item create POST`);
-});
+exports.itemCreatePost = [
+	// Convert the category to an array.
+	(req, res, next) => {
+		if (!Array.isArray(req.body.category)) {
+			req.body.category =
+				typeof req.body.category === 'undefined' ? [] : [req.body.category];
+		}
+		next();
+	},
+
+	// Validate and sanitize fields.
+	body('name', 'Name must not be empty.').trim().isLength({ min: 1 }).escape(),
+	body('description', 'Description must not be empty.')
+		.trim()
+		.isLength({ min: 1 })
+		.escape(),
+	body('price')
+		.trim()
+		.escape()
+		.isFloat()
+		.withMessage('Price must be a number.')
+		.isFloat({ min: 0 })
+		.withMessage('Price must be greater than or equal to 0.'),
+	body('quantity')
+		.trim()
+		.escape()
+		.isInt()
+		.withMessage('Quantity must be a whole number.')
+		.isInt({ min: 0 })
+		.withMessage('Quantity must be greater than or equal to 0.'),
+	body('category').escape(),
+
+	// Process request after validation and sanitization.
+	asyncHandler(async (req, res, next) => {
+		// Extract the validation errors from a request.
+		const errors = validationResult(req);
+
+		// Create an Item object with escaped and trimmed data.
+		const item = new Item({
+			name: req.body.name,
+			description: req.body.description,
+			price: req.body.price,
+			quantity: req.body.quantity,
+			category: req.body.category,
+		});
+
+		if (!errors.isEmpty()) {
+			// There are errors. Render form again with sanitized values/error messages.
+
+			// Get all categories for a form.
+			const allCategories = await Category.find().sort({ name: 1 }).exec();
+
+			// Mark our selected categories as checked.
+			for (const category of allCategories) {
+				if (item.category.includes(category._id)) {
+					category.checked = 'true';
+				}
+			}
+
+			res.render('itemForm', {
+				title: 'Create Item',
+				categories: allCategories,
+				item: item,
+				errors: errors.array(),
+			});
+		} else {
+			// Data from form is valid. Save item.
+			await item.save();
+			res.redirect(item.url);
+		}
+	}),
+];
 
 // Display Item delete form on GET.
 exports.itemDeleteGet = asyncHandler(async (req, res, next) => {
