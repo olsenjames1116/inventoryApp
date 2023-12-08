@@ -58,7 +58,13 @@ exports.itemDetail = asyncHandler(async (req, res, next) => {
 
 // Display Item create form on GET.
 exports.itemCreateGet = asyncHandler(async (req, res, next) => {
-	res.send(`NOT IMPLEMENTED: Item create GET`);
+	// Get all categories which we can use for our item.
+	const allCategories = await Category.find().sort({ name: 1 }).exec();
+
+	res.render('itemForm', {
+		title: 'Create Item',
+		categories: allCategories,
+	});
 });
 
 // Display Item create form on POST.
