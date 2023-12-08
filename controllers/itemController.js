@@ -144,7 +144,20 @@ exports.itemCreatePost = [
 
 // Display Item delete form on GET.
 exports.itemDeleteGet = asyncHandler(async (req, res, next) => {
-	res.send(`NOT IMPLEMENTED: Item delete GET`);
+	// Get details of item.
+	const item = await Item.findById(req.params.id).exec();
+
+	if (item === null) {
+		// No results.
+		const err = new Error('Item not found.');
+		err.status = 404;
+		return next(err);
+	}
+
+	res.render('itemDelete', {
+		title: 'Delete Item',
+		item: item,
+	});
 });
 
 // Display Item delete form on POST.
