@@ -162,7 +162,12 @@ exports.itemDeleteGet = asyncHandler(async (req, res, next) => {
 
 // Display Item delete form on POST.
 exports.itemDeletePost = asyncHandler(async (req, res, next) => {
-	res.send(`NOT IMPLEMENTED: Item create POST`);
+	// Get details of item.
+	const item = await Item.findById(req.params.id).exec();
+
+	// Delete object and redirect to the list of items.
+	await Item.findByIdAndDelete(req.body.itemid);
+	res.redirect('/inventory/items');
 });
 
 // Display Item update form on GET.
