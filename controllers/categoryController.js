@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler');
 // Display a list of all Category.
 exports.categoryList = asyncHandler(async (req, res, next) => {
 	const allCategories = await Category.find({}, 'name')
-		.collation({ lang: 'en' })
+		.collation({ locale: 'en' })
 		.sort({ name: 1 })
 		.exec();
 
