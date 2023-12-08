@@ -31,7 +31,6 @@ exports.itemList = asyncHandler(async (req, res, next) => {
 	const allItems = await Item.find({}, 'name')
 		.collation({ locale: 'en' })
 		.sort({ name: 1 })
-		.populate('category')
 		.exec();
 
 	res.render('itemList', {
