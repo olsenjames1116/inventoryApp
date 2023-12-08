@@ -52,7 +52,7 @@ router.post('/category/:id/delete', categoryController.categoryDeletePost);
 router.get('/category/:id/update', categoryController.categoryUpdateGet);
 
 // POST request to update Category.
-router.post('/category/:id.update', categoryController.categoryUpdatePost);
+router.post('/category/:id/update', categoryController.categoryUpdatePost);
 
 // GET request for one Category.
 router.get('/category/:id', categoryController.categoryDetail);
