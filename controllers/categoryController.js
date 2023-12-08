@@ -102,7 +102,25 @@ exports.categoryDeleteGet = asyncHandler(async (req, res, next) => {
 
 // Display Category delete form on POST.
 exports.categoryDeletePost = asyncHandler(async (req, res, next) => {
-	res.send(`NOT IMPLEMENTED: Category delete POST`);
+	// Get details of category and all their items.
+	const [category, itemsInCategory] = await Promise.all([
+		Category.findById(req.params.id).exec(),
+		Item.find({ category: req.params.id }, 'name description').exec(),
+	]);
+
+	if (itemsInCategory.length > 0) {
+		// Category has items. Render in the same way as for the GET route.
+		res.render('categoryDelete', {
+			title: 'Delete Category',
+			category: category,
+			itemList: itemsInCategory,
+		});
+		return;
+	} else {
+		// Category has no items. Delete object and redirect to the list of categories.
+		await Category.findByIdAndDelete(req.body.categoryid);
+		res.redirect('/inventory/categories');
+	}
 });
 
 // Display Category update form on GET.
