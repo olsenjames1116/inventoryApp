@@ -18,7 +18,7 @@ exports.categoryList = asyncHandler(async (req, res, next) => {
 // Display detail page for a specific Category.
 exports.categoryDetail = asyncHandler(async (req, res, next) => {
 	// Get details of category and all their items.
-	const [category, itemsInCategory] = Promise.all([
+	const [category, itemsInCategory] = await Promise.all([
 		Category.findById(req.params.id).exec(),
 		Item.find({ category: req.params.id }, 'name description').exec(),
 	]);
