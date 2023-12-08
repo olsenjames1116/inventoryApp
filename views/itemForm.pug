@@ -8,7 +8,7 @@ block content
         input#name(type='text', placeholder='Name of item', name='name', required='true', value=undefined === item ? '' : item.name)
 
         label(for='description') Description: 
-        textarea#description(type='textarea', placeholder='Description', name='description', required='true') #{item === undefined ? '' : item.description}
+        textarea#description(placeholder='Description', name='description', required='true') #{item === undefined ? '' : item.description}
 
         label(for='price') Price: 
         input#price(type='number', placeholder=19.99, name='price', step='0.01', required=true, value=item === undefined ? 0 : item.price)
