@@ -1,9 +1,28 @@
 const Item = require('../models/item');
+const Category = require('../models/category');
 const asyncHandler = require('express-async-handler');
 
 // Display index page for inventory.
 exports.index = asyncHandler(async (req, res, next) => {
-	res.send('NOT IMPLEMENTED: Catalog index page');
+	// Get details of items and categories.
+	const [itemCount, totalItems, categoryCount] = await Promise.all([
+		Item.countDocuments({}).exec(),
+		Item.aggregate([
+			{
+				$project: {
+					itemsTotal: { $sum: '$numberInStock' },
+				},
+			},
+		]),
+		Category.countDocuments({}).exec(),
+	]);
+
+	res.render('index', {
+		title: 'Shoelace Express Home',
+		itemCount: itemCount,
+		totalItems: totalItems,
+		categoryCount: categoryCount,
+	});
 });
 
 // Display a list of all items.
