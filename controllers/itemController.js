@@ -193,6 +193,78 @@ exports.itemUpdateGet = asyncHandler(async (req, res, next) => {
 });
 
 // Display Item update form on POST.
-exports.itemUpdatePost = asyncHandler(async (req, res, next) => {
-	res.send(`NOT IMPLEMENTED: Item update POST`);
-});
+exports.itemUpdatePost = [
+	// Convert the category to an array.
+	(req, res, next) => {
+		if (!Array.isArray(req.body.category)) {
+			req.body.category =
+				typeof req.body.category === 'undefined' ? [] : [req.body.category];
+		}
+		next();
+	},
+
+	// Validate and sanitize fields.
+	body('name', 'Name must not be empty.').trim().isLength({ min: 1 }).escape(),
+	body('description', 'Description must not be empty.')
+		.trim()
+		.isLength({ min: 1 })
+		.escape(),
+	body('price')
+		.trim()
+		.escape()
+		.isFloat()
+		.withMessage('Price must be a number.')
+		.isFloat({ min: 0 })
+		.withMessage('Price must be greater than or equal to 0.'),
+	body('quantity')
+		.trim()
+		.escape()
+		.isInt()
+		.withMessage('Quantity must be a whole number.')
+		.isInt({ min: 0 })
+		.withMessage('Quantity must be greater than or equal to 0.'),
+	body('category').escape(),
+
+	// Process request after validation and sanitization.
+	asyncHandler(async (req, res, next) => {
+		// Extract the validation errors from a request.
+		const errors = validationResult(req);
+
+		// Create an Item object with escaped/trimmed data and old id.
+		const item = new Item({
+			name: req.body.name,
+			description: req.body.description,
+			category: typeof req.body.category === undefined ? [] : req.body.category,
+			price: req.body.price,
+			quantity: req.body.quantity,
+			_id: req.params.id,
+		});
+
+		if (!errors.isEmpty()) {
+			// There are errors. Render form again with sanitized values/error messages.
+
+			// Get all categories for form.
+			const allCategories = await Category.find().sort({ name: 1 }).exec();
+
+			// Mark the selected categories as checked.
+			for (const category of allCategories) {
+				if (item.category.indexOf(category._id) > -1) {
+					category.checked = 'true';
+				}
+			}
+
+			res.render('itemForm', {
+				title: 'Update Item',
+				categories: allCategories,
+				item: item,
+				errors: errors.array(),
+			});
+			return;
+		} else {
+			// Data from form is valid. Update the item.
+			const updatedItem = await Item.findByIdAndUpdate(req.params.id, item, {});
+			// Redirect to item detail page.
+			res.redirect(updatedItem.url);
+		}
+	}),
+];
