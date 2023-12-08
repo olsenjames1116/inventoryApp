@@ -9,18 +9,19 @@ exports.index = asyncHandler(async (req, res, next) => {
 		Item.countDocuments({}).exec(),
 		Item.aggregate([
 			{
-				$project: {
-					itemsTotal: { $sum: '$numberInStock' },
+				$group: {
+					_id: null,
+					total: { $sum: '$numberInStock' },
 				},
 			},
-		]),
+		]).exec(),
 		Category.countDocuments({}).exec(),
 	]);
 
 	res.render('index', {
-		title: 'Shoelace Express Home',
+		title: 'Shoelace Express Inventory',
 		itemCount: itemCount,
-		totalItems: totalItems,
+		totalItems: totalItems[0].total,
 		categoryCount: categoryCount,
 	});
 });

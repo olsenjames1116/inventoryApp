@@ -2,4 +2,10 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Welcome to #[em Shoelace Express], the place where you can find and store all your favorite kicks.
+
+  h2 Database contains the following: 
+  ul
+    li #[strong Different Items:] #{itemCount}
+    li #[strong Total Items:] #{totalItems}
+    li #[strong Total Categories:] #{categoryCount}
