@@ -39,7 +39,7 @@ exports.categoryDetail = asyncHandler(async (req, res, next) => {
 
 // Display Category create form on GET.
 exports.categoryCreateGet = asyncHandler(async (req, res, next) => {
-	res.send(`NOT IMPLEMENTED: Category create GET`);
+	res.render('categoryForm', { title: 'Create Category' });
 });
 
 // Display Category create form on POST.
