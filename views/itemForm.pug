@@ -13,8 +13,8 @@ block content
         label(for='price') Price: 
         input#price(type='number', placeholder=19.99, name='price', required=true, value=item === undefined ? 0 : item.price)
 
-        label(for='numberInStock') Quantity: 
-        input#numberInStock(type='number', placeholder=10, name='numberInStock', required=true, value=item === undefined ? 0 : item.numberInStock)
+        label(for='quantity') Quantity: 
+        input#quantity(type='number', placeholder=10, name='quantity', required=true, value=item === undefined ? 0 : item.quantity)
 
         label Category: 
             each category in categories 

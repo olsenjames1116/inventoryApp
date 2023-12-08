@@ -11,7 +11,7 @@ exports.index = asyncHandler(async (req, res, next) => {
 			{
 				$group: {
 					_id: null,
-					total: { $sum: '$numberInStock' },
+					total: { $sum: '$quantity' },
 				},
 			},
 		]).exec(),

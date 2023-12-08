@@ -41,19 +41,12 @@ async function categoryCreate(index, name, description) {
 	console.log(`Added category: ${name}`);
 }
 
-async function itemCreate(
-	index,
-	name,
-	description,
-	category,
-	price,
-	numberInStock
-) {
+async function itemCreate(index, name, description, category, price, quantity) {
 	const itemDetail = {
 		name: name,
 		description: description,
 		price: price,
-		numberInStock: numberInStock,
+		quantity: quantity,
 	};
 	if (category) itemDetail.category = category;
 

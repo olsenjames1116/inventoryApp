@@ -6,7 +6,7 @@ block content
     p #[strong Item:] #{item.name}
     p #[strong Description:] #{item.description}
     p #[strong Price:] $#{item.price}
-    p #[strong Quantity:] #{item.numberInStock}
+    p #[strong Quantity:] #{item.quantity}
     p #[strong Category:] 
         each category, index in item.category
             a(href=category.url) #{category.name}
