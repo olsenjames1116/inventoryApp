@@ -80,7 +80,24 @@ exports.categoryCreatePost = [
 
 // Display Category delete form on GET.
 exports.categoryDeleteGet = asyncHandler(async (req, res, next) => {
-	res.send(`NOT IMPLEMENTED: Category delete GET`);
+	// Get details of category and all their items.
+	const [category, itemsInCategory] = await Promise.all([
+		Category.findById(req.params.id).exec(),
+		Item.find({ category: req.params.id }, 'name description').exec(),
+	]);
+
+	if (category === null) {
+		// No results.
+		const err = new Error('Category not found.');
+		err.status = 404;
+		return next(err);
+	}
+
+	res.render('categoryDelete', {
+		title: 'Delete Category',
+		category: category,
+		itemList: itemsInCategory,
+	});
 });
 
 // Display Category delete form on POST.
