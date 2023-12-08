@@ -134,6 +134,7 @@ exports.itemCreatePost = [
 				item: item,
 				errors: errors.array(),
 			});
+			return;
 		} else {
 			// Data from form is valid. Save item.
 			await item.save();
