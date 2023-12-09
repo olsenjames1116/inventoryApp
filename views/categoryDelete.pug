@@ -6,7 +6,7 @@ block content
     if itemList.length
         p #[strong Delete the following items before attempting to delete this category.]
 
-        h4 Items
+        h3 Items
 
         dl
             each item in itemList 
@@ -18,5 +18,5 @@ block content
 
         form(method='POST', action='')
             input(type='hidden', name='categoryid', required='true', value=category._id)
-            button(type='submit') Delete
+            button.delete(type='submit') Delete
                 

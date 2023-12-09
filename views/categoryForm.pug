@@ -3,12 +3,13 @@ extends layout
 block content 
     h1= title 
 
-    form(method='POST', action='')
-        label(for='name') Category:
-        input#name(type='text', placeholder='Basketball, Running, Cleats, etc.', name='name', required='true', value=category === undefined ? '' : category.name)
-        
-        label(for='description') Description: 
-        textarea#description(placeholder='A few words on what this category means...', name='description', required='true') #{ category === undefined ? '' : category.description }
+    form.update(method='POST', action='')
+        div
+            label(for='name') Category:
+            input#name(type='text', placeholder='Basketball, Running, Cleats, etc.', name='name', required='true', value=category === undefined ? '' : category.name)
+        div
+            label(for='description') Description: 
+            textarea#description(placeholder='A few words on what this category means...', name='description', required='true') #{ category === undefined ? '' : category.description }
         button(type='submit') Submit 
     
     if errors 

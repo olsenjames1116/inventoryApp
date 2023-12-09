@@ -4,6 +4,8 @@ block content
     h1= title 
 
     ul 
-        each item in itemList 
+        each item, index in itemList 
             li
                 a(href=item.url) #{item.name}
+                if(index !== itemList.length - 1)
+                    hr

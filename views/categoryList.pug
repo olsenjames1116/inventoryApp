@@ -4,6 +4,8 @@ block content
     h1= title
 
     ul 
-        each category in categoryList
+        each category, index in categoryList
             li 
                 a(href=category.url) #{category.name}
+                if(index !== categoryList.length - 1)
+                    hr

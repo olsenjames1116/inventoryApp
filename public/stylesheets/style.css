@@ -1,8 +1,172 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@font-face {
+	font-family: 'laced';
+	src:
+		url('../fonts/laced-webfont.woff2') format('woff2'),
+		url('../fonts/laced-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
-a {
-  color: #00B7FF;
+:root {
+	--darkest: #655b66;
+	--darker: #83747c;
+	--medium: #b19c9e;
+	--lighter: #d8c8c2;
+	--lightest: #e7e3d9;
+}
+
+* {
+	border: 1px solid black;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	font-family: 'Courier New', Courier, monospace;
+}
+
+header {
+	background-color: var(--darkest);
+}
+
+nav {
+	padding: 30px;
+	display: flex;
+	justify-content: space-between;
+
+	&& a {
+		text-decoration: none;
+		color: var(--lightest);
+		transition-property: transform;
+		transition-duration: 500ms;
+
+		&&:hover {
+			transform: scale(1.1);
+		}
+	}
+}
+
+div.logo > a {
+	display: flex;
+	align-items: center;
+	font-family: 'laced', sans-serif;
+	font-size: 3rem;
+}
+
+div.links {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 1.5rem;
+}
+
+main {
+	flex-grow: 1;
+	padding: 20px;
+	background-color: var(--lightest);
+}
+
+div.content {
+	background-color: var(--medium);
+	padding: 10px;
+	border-radius: 5px;
+
+	&& p {
+		font-size: 1.2rem;
+	}
+
+	&& a {
+		text-decoration: none;
+		color: white;
+		font-size: 1.2rem;
+
+		&&:hover {
+			filter: contrast(80%);
+		}
+	}
+}
+
+h1 {
+	text-align: center;
+}
+
+p.subheading {
+	text-align: center;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+}
+
+button.delete {
+	background-color: #dc3545;
+	color: white;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 1.2rem;
+	border: 0;
+	border-radius: 5px;
+
+	&&:hover {
+		filter: contrast(80%);
+	}
+}
+
+form.update {
+	display: flex;
+	flex-direction: column;
+	font-size: 1.2rem;
+	gap: 10px;
+
+	&& div {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&& input {
+		font-family: 'Courier New', Courier, monospace;
+		font-size: 1.2rem;
+		height: 30px;
+	}
+
+	&& > div.category > label {
+		display: flex;
+		align-items: center;
+	}
+
+	&& > button {
+		font-family: 'Courier New', Courier, monospace;
+		font-size: 1.2rem;
+		border: 0;
+		border-radius: 5px;
+		background-color: #00b000;
+		color: white;
+		align-self: flex-start;
+
+		&&:hover {
+			filter: contrast(80%);
+		}
+	}
+}
+
+footer {
+	background-color: var(--darkest);
+	color: white;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 5px;
+	font-size: 1.2rem;
+
+	&& p {
+		margin: 0;
+	}
+
+	&& a {
+		text-decoration: none;
+		color: var(--lightest);
+	}
 }
