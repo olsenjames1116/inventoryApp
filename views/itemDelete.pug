@@ -1,10 +1,10 @@
-extends layout 
+extends layout
 
 block content
-    h1 #{title}: #{item.name}
+  h1 #{ title }: #{ item.name }
 
-    p Do you really want to delete this Item?
+  p Do you really want to delete this Item?
 
-    form(method='POST', action='')
-        input(type='hidden', name='itemid', required='true', value=item._id)
-        button.delete(type='submit') Delete
+  form(method="POST", action="")
+    input(type="hidden", name="itemid", required="true", value=item._id)
+    button.delete(type="submit") Delete

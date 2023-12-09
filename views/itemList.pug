@@ -1,11 +1,11 @@
 extends layout
 
-block content 
-    h1= title 
+block content
+  h1= title
 
-    ul 
-        each item, index in itemList 
-            li
-                a(href=item.url) #{item.name}
-                if(index !== itemList.length - 1)
-                    hr
+  ul
+    each item, index in itemList 
+      li
+        a(href=item.url) #{ item.name }
+        if (index !== itemList.length - 1)
+          hr

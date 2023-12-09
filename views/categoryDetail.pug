@@ -1,20 +1,20 @@
-extends layout 
+extends layout
 
-block content 
-    h1 Category: #{category.name}
-    p.subheading= category.description
+block content
+  h1 Category: #{ category.name }
+  p.subheading= category.description
 
-    h4 Items
-        dl 
-            each item in itemList 
-                dt 
-                    a(href=item.url) #{item.name}
-                dd #{item.description}
-            
-            else
-                p This category has no items.
-    hr
-    p
-        a(href=`${category.url}/delete`) Delete Category
-    p 
-        a(href=`${category.url}/update`) Update Category
+  h4 Items
+    dl
+      each item in itemList 
+        dt
+          a(href=item.url) #{ item.name }
+        dd #{ item.description }
+
+      else
+        p This category has no items.
+  hr
+  p
+    a(href=`${category.url}/delete`) Delete Category
+  p
+    a(href=`${category.url}/update`) Update Category

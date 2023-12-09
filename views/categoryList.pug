@@ -1,11 +1,11 @@
-extends layout 
+extends layout
 
 block content
-    h1= title
+  h1= title
 
-    ul 
-        each category, index in categoryList
-            li 
-                a(href=category.url) #{category.name}
-                if(index !== categoryList.length - 1)
-                    hr
+  ul
+    each category, index in categoryList
+      li
+        a(href=category.url) #{ category.name }
+        if (index !== categoryList.length - 1)
+          hr
