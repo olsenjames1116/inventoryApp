@@ -6,15 +6,27 @@ const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 const inventoryRouter = require('./routes/inventory');
+const compression = require('compression');
+const helmet = require('helmet');
+const RateLimit = require('express-rate-limit');
 
 const app = express();
+
+// Set up rate limiter: maximum of twenty requests per minute.
+const limiter = RateLimit({
+	windowMs: 1 * 60 * 1000, //1 minute
+	max: 20,
+});
+// Apply rate limiter to all requests.
+app.use(limiter);
 
 // Set up mongoose connection.
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 
-const mongoDB =
+const dev_db_url =
 	'mongodb+srv://admin:7lGSZ3gLkIwW4lns@cluster0.280ehzs.mongodb.net/?retryWrites=true&w=majority';
+const mongoDB = process.env.MONGODB_URI || dev_db_url;
 main().catch((err) => {
 	console.log(err);
 });
@@ -31,6 +43,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(compression());
+app.use(helmet());
 
 app.use('/', indexRouter);
 app.use('/inventory', inventoryRouter);
