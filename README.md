@@ -29,3 +29,5 @@ This project highlights:
 - Node.js
 - Express
 - Server-side routing
+
+© 2024 James Olsen. All Rights Reserved.
